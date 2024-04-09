@@ -1,7 +1,8 @@
-import React from "react";
 import { StyledProducts } from "../../styles/styled-product";
 import styled from "styled-components";
 import SavedForLaterProduct from "./SavedForLaterProduct";
+import { FC } from "react";
+import { ProductInterface } from "../../core/producTypes";
 
 const StyledProductsContainer = styled.div`
   display: grid;
@@ -13,7 +14,9 @@ const StyledProductsContainer = styled.div`
   }
 `;
 
-const SavedForLaterProducts = ({ products }) => {
+const SavedForLaterProducts: FC<{ products: ProductInterface[] }> = ({
+  products,
+}) => {
   return (
     <StyledProducts>
       {products.length ? (

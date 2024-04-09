@@ -1,4 +1,3 @@
-import React from "react";
 import { StyledContainer } from "../../../styles";
 import styled from "styled-components";
 import Currency from "./Currency";

@@ -15,7 +15,7 @@ const StyledSubProduct = styled.div`
 
 async function getProductsByCategories(id, cb) {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/products/category/${id}`
+    `${import.meta.env.REACT_APP_BASE_URL}/products/category/${id}`
   );
 
   const data = await response.data;

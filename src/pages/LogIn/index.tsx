@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { StyledContainer, InputGroup, StyledButton } from "../../styles";
 import styled from "styled-components";
@@ -8,6 +7,7 @@ import { login } from "../../features/auth-slice";
 import { updateIds } from "../../features/cart-slice";
 import Loader from "../../components/Loader";
 import { ClipLoader } from "react-spinners";
+import { useAppDispatch } from "../../store/hooks";
 
 const StyledLogInPage = styled.div`
   height: 100vh;
@@ -36,9 +36,9 @@ const StyledLogInImgContainer = styled.form`
 `;
 
 const Index = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  let [searchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const [loading, setLoading] = useState(false);
   const [logginIn, setLogginIn] = useState(false);
 
@@ -60,7 +60,7 @@ const Index = () => {
       setLogginIn(true);
       // log user in
       const resp = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/auth/users/login`,
+        `${import.meta.env.REACT_APP_BASE_URL}/auth/users/login`,
         { email: userInfo.email.value, password: userInfo.password.value }
       );
 
@@ -82,7 +82,7 @@ const Index = () => {
 
         // update it's cart
         const postCartsProductsReq = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/cart/products`,
+          `${import.meta.env.REACT_APP_BASE_URL}/cart/products`,
           cartsProducts,
           {
             headers: { Authorization: localStorage.getItem("token") },
@@ -104,7 +104,7 @@ const Index = () => {
 
         // update it's visits
         const updateUsereVisits = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/users/visits`,
+          `${import.meta.env.REACT_APP_BASE_URL}/users/visits`,
           { visits: JSON.parse(localStorage.getItem("visits")) || [] },
           {
             headers: { Authorization: localStorage.getItem("token") },
@@ -116,7 +116,7 @@ const Index = () => {
 
         // update it's visits
         const updateUsereSearch = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/users/search`,
+          `${import.meta.env.REACT_APP_BASE_URL}/users/search`,
           { search: JSON.parse(localStorage.getItem("search")) || [] },
           {
             headers: { Authorization: localStorage.getItem("token") },
@@ -128,7 +128,7 @@ const Index = () => {
 
         // updating the wishlist
         const wishlistResp = await axios.post(
-          `${process.env.REACT_APP_BASE_URL}/users/wishlist`,
+          `${import.meta.env.REACT_APP_BASE_URL}/users/wishlist`,
           { wishlist: JSON.parse(localStorage.getItem("wishlist")) || [] },
           { headers: { Authorization: localStorage.getItem("token") } }
         );

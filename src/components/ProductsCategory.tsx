@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
@@ -45,7 +44,9 @@ const ProductsCategory = ({ data }) => {
             <Link to={`/product/${product._id}`}>
               <img
                 crossOrigin="anonymous"
-                src={`${process.env.REACT_APP_BASE_URL}/images/${product.store}/products/${product.images[0]}`}
+                src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+                  product.store
+                }/products/${product.images[0]}`}
                 alt=""
               />
             </Link>

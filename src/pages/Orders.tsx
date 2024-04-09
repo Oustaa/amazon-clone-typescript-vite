@@ -1,4 +1,3 @@
-import React from "react";
 import useFetch from "../hooks/useFetch";
 import Loader from "../components/Loader";
 import { StyledContainer } from "../styles";
@@ -16,7 +15,7 @@ const StyledOrders = styled.div`
 `;
 
 const request = {
-  url: `${process.env.REACT_APP_BASE_URL}/orders/user`,
+  url: `${import.meta.env.REACT_APP_BASE_URL}/orders/user`,
   config: {
     headers: { Authorization: localStorage.getItem("token") },
   },

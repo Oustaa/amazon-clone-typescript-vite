@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef, FormEvent, ChangeEvent, KeyboardEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { StyledSearchForm } from "../../styles/styled-header";
@@ -37,19 +37,18 @@ const StyledSearchLink = styled.div`
 `;
 
 const Search = () => {
-  const searchInputRef = useRef();
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchQueries, setSearchQueries] = useState(
-    JSON.parse(localStorage.getItem("search")) || []
+  const searchInputRef = useRef<HTMLInputElement | null>(null);
+  const [showSearch, setShowSearch] = useState<boolean>(false);
+  const [searchQueries, setSearchQueries] = useState<string[]>(
+    JSON.parse(localStorage.getItem("search") || "[]")
   );
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
 
-  const changeHandler = (e) => {
-    console.log(e.nativeEvent.key);
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     if (value === "") {
-      setSearchQueries(JSON.parse(localStorage.getItem("search")) || []);
+      setSearchQueries(JSON.parse(localStorage.getItem("search") || "[]"));
     } else {
       const regex = new RegExp(value, "g");
       setSearchQueries((prev) => {
@@ -60,36 +59,37 @@ const Search = () => {
     setQuery(value);
   };
 
-  const searchHandler = (e) => {
+  const searchHandler = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (query.length <= 2) return;
-    const searchHistory = JSON.parse(localStorage.getItem("search")) || [];
+    const searchHistory = JSON.parse(localStorage.getItem("search") || "[]");
     localStorage.setItem(
       "search",
       JSON.stringify(new Array(...new Set([query, ...searchHistory])))
     );
     setShowSearch(false);
-    searchInputRef.current.blur();
+    searchInputRef.current?.blur();
     navigate(`/search/${query}`);
   };
 
-  const clickSearchHandler = (value) => {
-    const searchHistory = JSON.parse(localStorage.getItem("search")) || [];
+  const clickSearchHandler = (value: string) => {
+    const searchHistory = JSON.parse(localStorage.getItem("search") || "[]");
     localStorage.setItem(
       "search",
       JSON.stringify(new Array(...new Set([value, ...searchHistory])))
     );
     setShowSearch(false);
-    searchInputRef.current.blur();
+    searchInputRef.current?.blur();
     navigate(`/search/${value}`);
   };
 
-  const escClickHandler = (e) => {
+  const escClickHandler = (e: KeyboardEvent<HTMLDivElement>) => {
     if (e.keyCode === 27) {
       setShowSearch(false);
-      searchInputRef.current.blur();
+      searchInputRef.current?.blur();
     }
-    changeHandler(e);
+    // what this line of code does ?????
+    // changeHandler(e);
   };
 
   return (

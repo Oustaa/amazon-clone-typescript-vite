@@ -4,7 +4,7 @@ import axios from "axios";
 
 async function getSuggestions(cb, body) {
   const resp = await axios.post(
-    `${process.env.REACT_APP_BASE_URL}/products/suggestions/categories`,
+    `${import.meta.env.REACT_APP_BASE_URL}/products/suggestions/categories`,
     body
   );
   const data = await resp.data;

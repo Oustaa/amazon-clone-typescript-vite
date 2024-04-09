@@ -1,4 +1,3 @@
-import React from "react";
 import { StyledContainer } from "../../styles/index";
 import Categories from "../../components/categories/Categories";
 import LatestUploaded from "./LatestUploaded";

@@ -1,11 +1,10 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "./Layout";
 import OrderItems from "./OrderItems";
 import UserInfo from "./UserInfo";
 import PaymentInfo from "./PaymentInfo";
 import { StyledContainer } from "../../styles";
-import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../store/hooks";
 
 /*
     Order Structure
@@ -40,7 +39,7 @@ const COMPONENTS = [OrderItems, UserInfo, PaymentInfo];
 const TITLE = ["Order's Items", "User Info", "Payment"];
 
 const CheckOut = () => {
-  const { currency } = useSelector((state) => state.auth);
+  const { currency } = useAppSelector((state) => state.auth);
 
   const [order, setOrder] = useState({
     items: [],

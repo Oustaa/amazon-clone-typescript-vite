@@ -10,7 +10,7 @@ export const StyledProducts = styled.div`
   }
 `;
 
-export const StyledProductsContainer = styled.div`
+export const StyledProductsContainer = styled.div<{ numProd?: number }>`
   display: grid;
   grid-template-columns: repeat(
     ${({ numProd }) => (numProd ? numProd : 4)},

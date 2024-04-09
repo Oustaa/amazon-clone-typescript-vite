@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, FC } from "react";
 import { Link } from "react-router-dom";
 import {
   StyledProduct,
@@ -7,10 +7,10 @@ import {
 } from "../../styles/styled-product";
 import getSymbolFromCurrency from "currency-symbol-map";
 import axios from "axios";
-import { useSelector } from "react-redux";
 import { convertPriceCurrency } from "../../utils/changePrice";
+import { useAppSelector } from "../../store/hooks";
 
-function isElementVisible(element) {
+function isElementVisible(element: HTMLAnchorElement) {
   if (!element) return;
   const rect = element?.getBoundingClientRect();
   const viewportHeight =
@@ -19,11 +19,21 @@ function isElementVisible(element) {
   return rect.top >= 0 && rect.left >= 0 && rect.bottom <= viewportHeight;
 }
 
-async function viewedProduct(id) {
-  axios.put(`${process.env.REACT_APP_BASE_URL}/products/viewed/${id}`);
+function viewedProduct(id: string) {
+  axios.put(`${import.meta.env.REACT_APP_BASE_URL}/products/viewed/${id}`);
 }
 
-const ProductCard = ({
+type ProductCardProps = {
+  _id: string;
+  title: string;
+  price: number;
+  images: string[];
+  currency: string;
+  store: string;
+  titleLong?: number;
+};
+
+const ProductCard: FC<ProductCardProps> = ({
   _id,
   title,
   price,
@@ -32,8 +42,8 @@ const ProductCard = ({
   store,
   titleLong,
 }) => {
-  const userCurrency = useSelector((state) => state.auth.currency);
-  const productRef = useRef();
+  const userCurrency = useAppSelector((state) => state.auth.currency);
+  const productRef = useRef<null | HTMLAnchorElement>(null);
   const [visible, setVisible] = useState(false);
   const [convertedPrice, setConvertedPrice] = useState(0.0);
 
@@ -47,14 +57,14 @@ const ProductCard = ({
       setConvertedPrice
     );
 
-    if (isElementVisible(productRef.current)) {
+    if (productRef.current && isElementVisible(productRef.current)) {
       setVisible(true);
     }
   }, [userCurrency, currency, price]);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (isElementVisible(productRef.current)) {
+      if (productRef.current && isElementVisible(productRef.current)) {
         setVisible(true);
       }
     };
@@ -77,7 +87,9 @@ const ProductCard = ({
         <StyledProductImage>
           <img
             crossOrigin="anonymous"
-            src={`${process.env.REACT_APP_BASE_URL}/images/${store}/products/${images[0]}`}
+            src={`${
+              import.meta.env.REACT_APP_BASE_URL
+            }/images/${store}/products/${images[0]}`}
             alt={title}
           />
         </StyledProductImage>

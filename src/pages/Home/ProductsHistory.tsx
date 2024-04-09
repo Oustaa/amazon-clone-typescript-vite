@@ -1,28 +1,39 @@
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import ProductsContainer from "../../components/products/ProductsContainer";
+import { ProductInterface } from "../../core/producTypes";
 
-async function getLatestProduct(cb, ids) {
+async function getLatestProduct(
+  cb: (args0: { value: ProductInterface[]; loading: boolean }) => void,
+  ids: string[]
+) {
   const resp = await axios.post(
-    `${process.env.REACT_APP_BASE_URL}/products/ids`,
+    `${import.meta.env.REACT_APP_BASE_URL}/products/ids`,
     {
       ids,
     }
   );
-  const data = await resp.data;
+  const data: ProductInterface[] = await resp.data;
   const sorteddata = ids.map((id) => {
     return data.find(({ _id }) => _id === id);
   });
-  cb({ value: sorteddata, loading: false });
+
+  cb({ value: sorteddata || [], loading: false });
 }
 
 const LatestUploaded = () => {
-  const [latest, setLatest] = useState({ value: [], loading: false });
+  const [latest, setLatest] = useState<{
+    value: ProductInterface[];
+    loading: boolean;
+  }>({ value: [], loading: false });
 
   useEffect(() => {
     setLatest({ value: [], loading: true });
-    if (JSON.parse(localStorage.getItem("visits")))
-      getLatestProduct(setLatest, JSON.parse(localStorage.getItem("visits")));
+    if (JSON.parse(localStorage.getItem("visits") || "{}"))
+      getLatestProduct(
+        setLatest,
+        JSON.parse(localStorage.getItem("visits") || "{}")
+      );
   }, []);
 
   if (!localStorage.getItem("visits")) return;

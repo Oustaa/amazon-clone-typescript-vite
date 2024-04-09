@@ -5,7 +5,7 @@ import categoriesSlice from "../features/categories-slice";
 import uiSlice from "../features/ui-slice";
 import cartSlice from "../features/cart-slice";
 
-export default configureStore({
+const store = configureStore({
   reducer: {
     auth: authSlice,
     categories: categoriesSlice,
@@ -13,3 +13,8 @@ export default configureStore({
     cart: cartSlice,
   },
 });
+
+export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>;
+
+export default store;

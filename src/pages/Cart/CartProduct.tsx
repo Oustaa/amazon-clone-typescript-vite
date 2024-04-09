@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { Link } from "react-router-dom";
 import {
@@ -6,7 +6,6 @@ import {
   toggleQuantity,
   saveLater,
 } from "../../features/cart-slice";
-import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import {
@@ -18,6 +17,7 @@ import {
   StyledCartProductQte,
 } from "../../styles/styled-cart";
 import { convertPriceCurrency } from "../../utils/changePrice";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const loaderExtraStyles = `
   position: absolute;
@@ -30,10 +30,10 @@ const loaderExtraStyles = `
 `;
 
 const CartProduct = ({ images, store, title, price, currency, _id }) => {
-  const { currency: userCurrency } = useSelector((state) => state.auth);
+  const { currency: userCurrency } = useAppSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
   const [updateQte, setUpdateQte] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [convertedPrice, setConvertedPrice] = useState(0.0);
 
   useEffect(() => {
@@ -46,15 +46,16 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
       setConvertedPrice
     );
   }, [userCurrency, currency, price]);
-  const { qte, saveLater: savedLater } = useSelector((state) => state.cart.ids)[
-    _id
-  ];
+
+  const { qte, saveLater: savedLater } = useAppSelector(
+    (state) => state.cart.ids
+  );
 
   const toggleProductQte = async (num) => {
     setLoading(true);
     try {
       await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cart`,
+        `${import.meta.env.REACT_APP_BASE_URL}/cart`,
         {
           product: _id,
           qte: num,
@@ -62,6 +63,7 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
         { headers: { Authorization: localStorage.getItem("token") } }
       );
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
       dispatch(toggleQuantity({ id: _id, number: num }));
@@ -71,7 +73,7 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
   const deleteProducthandler = async () => {
     setLoading(true);
     try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/cart/${_id}`, {
+      await axios.delete(`${import.meta.env.REACT_APP_BASE_URL}/cart/${_id}`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
     } catch (error) {
@@ -86,7 +88,7 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
     setLoading(true);
     try {
       await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cart/savedForLater`,
+        `${import.meta.env.REACT_APP_BASE_URL}/cart/savedForLater`,
         {
           product: _id,
           savedLater: !savedLater,
@@ -109,7 +111,9 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
         <StyledCartProductImage>
           <img
             crossOrigin="anonymous"
-            src={`${process.env.REACT_APP_BASE_URL}/images/${store}/products/${images[0]}`}
+            src={`${
+              import.meta.env.REACT_APP_BASE_URL
+            }/images/${store}/products/${images[0]}`}
             alt={title}
             title={title}
           />

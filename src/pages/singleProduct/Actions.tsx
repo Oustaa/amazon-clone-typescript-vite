@@ -1,12 +1,11 @@
-import React from "react";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { FlexContainer, InputGroup, StyledButton } from "../../styles";
 import styled from "styled-components";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { setIds } from "../../features/cart-slice";
 import axios from "axios";
 import { ClipLoader } from "react-spinners";
+import { useAppDispatch } from "../../store/hooks";
 
 const StyledCart = styled.div`
   position: sticky;
@@ -22,7 +21,7 @@ const extraStyles = `
 `;
 
 const Actions = ({ product }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [quantity, setQuantity] = useState(1);
   const [loading, setLoading] = useState(false);
 
@@ -40,7 +39,7 @@ const Actions = ({ product }) => {
     try {
       setLoading(true);
       await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/cart/products`,
+        `${import.meta.env.REACT_APP_BASE_URL}/cart/products`,
         [
           {
             product: product._id,
@@ -70,7 +69,7 @@ const Actions = ({ product }) => {
     try {
       setLoading(true);
       await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/users/wishlist`,
+        `${import.meta.env.REACT_APP_BASE_URL}/users/wishlist`,
         { wishlist: [product._id] },
         { headers: { Authorization: localStorage.getItem("token") } }
       );

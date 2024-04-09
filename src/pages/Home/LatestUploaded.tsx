@@ -4,7 +4,7 @@ import axios from "axios";
 
 async function getProducts(cb) {
   const resp = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/products/latest`
+    `${import.meta.env.REACT_APP_BASE_URL}/products/latest`
   );
   const data = await resp.data;
 

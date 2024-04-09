@@ -1,11 +1,8 @@
-import React from "react";
 import {
   StyledNavBar,
   StyledHeader,
   StyledLogo,
   StyledActions,
-  StyledNav,
-  StyledLinks,
 } from "../../../styles/styled-header";
 import { Link } from "react-router-dom";
 const Header = () => {
@@ -17,7 +14,7 @@ const Header = () => {
           <span>store Logo</span>
         </StyledLogo>
         <StyledActions>
-          <Link>log in</Link>
+          <Link to="">log in</Link>
           <Link to={"/store.com/create/"}>create store</Link>
         </StyledActions>
       </StyledHeader>

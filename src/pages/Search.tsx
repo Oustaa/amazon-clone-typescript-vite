@@ -5,10 +5,13 @@ import { useParams } from "react-router-dom";
 import { StyledContainer } from "../styles";
 import Loader from "../components/Loader";
 import ProductsContainer from "../components/products/ProductsContainer";
+import { ProductInterface } from "../core/producTypes";
 
-async function getProducts(query, cb) {
+type searchResult = { value: ProductInterface[]; loading: boolean };
+
+async function getProducts(query: string, cb: (arg0: searchResult) => void) {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/products/search?q=${query}`
+    `${import.meta.env.REACT_APP_BASE_URL}/products/search?q=${query}`
   );
 
   const data = await response.data;
@@ -17,12 +20,15 @@ async function getProducts(query, cb) {
 }
 
 const Search = () => {
-  const [products, setProducts] = useState({ value: [], loading: true });
-  const { query } = useParams();
+  const [products, setProducts] = useState<searchResult>({
+    value: [],
+    loading: true,
+  });
+  const { query } = useParams<{ query: string }>();
 
   useEffect(() => {
     setProducts({ value: [], loading: true });
-    getProducts(query, setProducts);
+    getProducts(query as string, setProducts);
   }, [query]);
 
   if (products.loading) return <Loader />;
@@ -30,7 +36,7 @@ const Search = () => {
   return (
     <StyledContainer>
       <ProductsContainer
-        title={`Search result for: ${query.replaceAll("%20", " ")}`}
+        title={`Search result for: ${query?.replaceAll("%20", " ")}`}
         data={products}
       />
     </StyledContainer>

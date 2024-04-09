@@ -74,7 +74,9 @@ const Images = ({ product }) => {
         <StyledBigImage>
           <img
             crossOrigin="anynomos"
-            src={`${process.env.REACT_APP_BASE_URL}/images/${product.store}/products/${product.images[displayedImage]}`}
+            src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+              product.store
+            }/products/${product.images[displayedImage]}`}
             alt=""
           />
         </StyledBigImage>
@@ -87,7 +89,9 @@ const Images = ({ product }) => {
             >
               <img
                 crossOrigin="anynomos"
-                src={`${process.env.REACT_APP_BASE_URL}/images/${product.store}/products/${img}`}
+                src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+                  product.store
+                }/products/${img}`}
                 alt=""
               />
             </div>

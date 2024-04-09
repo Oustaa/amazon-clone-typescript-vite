@@ -1,12 +1,12 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { BsPerson } from "react-icons/bs";
 import { CiLogout } from "react-icons/ci";
-import { useSelector } from "react-redux";
 import { StyledButton } from "../../../styles";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { useAppSelector } from "../../../store/hooks";
 
-const StyledDropDownContainer = styled.div`
+const StyledDropDownContainer = styled.div<{ isDropdownOpen: boolean }>`
   position: relative;
   background-color: ${({ isDropdownOpen }) =>
     isDropdownOpen && "var(--dark-600)"};
@@ -30,12 +30,12 @@ const StyledDropDown = styled.div`
 `;
 
 const UserDropDown = () => {
-  const username = useSelector((state) => state.auth.username);
+  const username = useAppSelector((state) => state.auth.username);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const logOut = () => {
     localStorage.clear();
-    window.location.reload(false);
+    window.location.reload();
   };
 
   const handleToggleDropdown = () => {
@@ -59,9 +59,9 @@ const UserDropDown = () => {
           </StyledDropDown>
         )}
       </StyledDropDownContainer>
-      <Link onClick={logOut}>
+      <button onClick={logOut}>
         Log out <CiLogout />
-      </Link>
+      </button>
     </>
   ) : (
     <Link to="/login">

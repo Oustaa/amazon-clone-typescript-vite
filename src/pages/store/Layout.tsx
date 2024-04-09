@@ -13,7 +13,7 @@ import axios from "axios";
 async function getStore(id, cb) {
   cb({ value: {}, loading: true });
   const resp = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/stores/${id}`
+    `${import.meta.env.REACT_APP_BASE_URL}/stores/${id}`
   );
   console.log(await resp.data);
   const data = await resp.data;
@@ -33,8 +33,10 @@ const Layout = () => {
       <StyledStoreHeader>
         <StyledBgimage>
           <img
-            src={`${process.env.REACT_APP_BASE_URL}/images/bg-image-size.jpg`}
-            crossorigin="anonymous"
+            src={`${
+              import.meta.env.REACT_APP_BASE_URL
+            }/images/bg-image-size.jpg`}
+            crossOrigin="anonymous"
             alt=""
           />
         </StyledBgimage>

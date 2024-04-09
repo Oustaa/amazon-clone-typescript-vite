@@ -6,7 +6,7 @@ import getSymbolFromCurrency from "currency-symbol-map";
 import Loader from "../../components/Loader";
 import axios from "axios";
 import { deleteProduct } from "../../features/cart-slice";
-import { useDispatch } from "react-redux";
+import { useAppDispatch } from "../../store/hooks";
 
 const StyledPayment = styled.div``;
 const StyledPaymentInfo = styled.div`
@@ -16,7 +16,7 @@ const StyledPaymentInfo = styled.div`
 `;
 
 const PaymentInfo = ({ order }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
@@ -24,7 +24,7 @@ const PaymentInfo = ({ order }) => {
   const deleteProducthandler = async (_id) => {
     setLoading(true);
     try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/cart/${_id}`, {
+      await axios.delete(`${import.meta.env.REACT_APP_BASE_URL}/cart/${_id}`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
     } catch (error) {
@@ -43,7 +43,7 @@ const PaymentInfo = ({ order }) => {
       setLoading(true);
       // send the order
       const orderResponse = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/orders`,
+        `${import.meta.env.REACT_APP_BASE_URL}/orders`,
         order,
         {
           headers: {

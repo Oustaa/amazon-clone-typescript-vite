@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import {
   StyledCartProduct,
@@ -39,7 +38,9 @@ const OrderItem = ({ product, orderItems, setOrderItems }) => {
         <StyledCartProductImage>
           <img
             crossOrigin="anonymous"
-            src={`${process.env.REACT_APP_BASE_URL}/images/${product.store}/products/${product.images[0]}`}
+            src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+              product.store
+            }/products/${product.images[0]}`}
             alt={product.title}
             title={product.title}
           />

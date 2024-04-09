@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { InputGroup, StyledButton } from "../../styles";
 import styled from "styled-components";
-import { BsCaretUp, BsCaretDown } from "react-icons/bs";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { useAppSelector } from "../../store/hooks";
 
 const StyledQuestionsSection = styled.section`
   display: flex;
@@ -55,7 +54,7 @@ const StyledAskQuestion = styled.form`
 `;
 
 const Questions = ({ product }) => {
-  const username = useSelector((state) => state.auth.username);
+  const username = useAppSelector((state) => state.auth.username);
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
 
@@ -66,7 +65,9 @@ const Questions = ({ product }) => {
     setLoading(true);
     try {
       const resp = await axios.post(
-        `${process.env.REACT_APP_BASE_URL}/products/question/${product._id}`,
+        `${import.meta.env.REACT_APP_BASE_URL}/products/question/${
+          product._id
+        }`,
         { text: question },
         { headers: { Authorization: localStorage.getItem("token") } }
       );
@@ -128,7 +129,7 @@ const Questions = ({ product }) => {
               <h3>Ask:</h3>
             </label>
             <textarea
-              rows="4"
+              rows={4}
               value={question}
               onChange={(e) => setQuestion(e.target.value)}
             ></textarea>

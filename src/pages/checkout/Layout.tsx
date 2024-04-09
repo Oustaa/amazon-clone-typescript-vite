@@ -1,8 +1,8 @@
-import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { StyledLogo } from "../../styles/styled-header";
 import { StyledContainer } from "../../styles";
+import { FC } from "react";
 
 const StyledHeader = styled.header`
   background: var(--dark-700);
@@ -21,7 +21,7 @@ const extraStyles = `
     padding-block: var(--spacing-lg);
 `;
 
-const Layout = ({ title }) => {
+const Layout: FC<{ title: string }> = ({ title }) => {
   return (
     <StyledHeader>
       <StyledContainer extraStyles={extraStyles}>

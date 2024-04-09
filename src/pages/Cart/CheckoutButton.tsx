@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useSelector } from "react-redux";
 import { StyledButton } from "../../styles";
 import { Link } from "react-router-dom";
+import { useAppSelector } from "../../store/hooks";
 
 const StyledCheckOutContaier = styled.div`
   width: 40%;
@@ -18,7 +18,7 @@ const StyledCheckOutContaier = styled.div`
 `;
 
 const CheckoutButton = () => {
-  const { products, ids } = useSelector((state) => state.cart);
+  const { products, ids } = useAppSelector((state) => state.cart);
   const [totle, setTotal] = useState(0);
 
   useEffect(() => {
@@ -27,7 +27,7 @@ const CheckoutButton = () => {
       0
     );
 
-    setTotal(totle.toFixed(2));
+    setTotal(Number(totle.toFixed(2)));
   }, [products, ids]);
 
   return (

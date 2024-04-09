@@ -1,12 +1,30 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
+type initialStateInterface = { currency: string; loading: boolean } & (
+  | {
+      token: null;
+      username: "";
+    }
+  | {
+      token: string;
+      username: string;
+    }
+);
+
+const initialState: initialStateInterface = {
+  token: null,
+  username: "",
+  currency: "USD",
+  loading: true,
+};
+
 export const isLoggedIn = createAsyncThunk("/is/loggedin", async () => {
   const token = localStorage.getItem("token");
 
   if (!token) return { token: null, username: "" };
   const resp = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/auth/stores/isloggedin`,
+    `${import.meta.env.REACT_APP_BASE_URL}/auth/stores/isloggedin`,
     {
       headers: { Authorization: token },
     }
@@ -17,7 +35,7 @@ export const isLoggedIn = createAsyncThunk("/is/loggedin", async () => {
 
 const authSlice = createSlice({
   name: "auth",
-  initialState: { token: null, username: "", currency: "USD", loading: true },
+  initialState,
   reducers: {
     login: (state, { payload }) => {
       state.token = payload.token;

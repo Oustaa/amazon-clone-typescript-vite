@@ -1,10 +1,10 @@
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { getCartProducts, getIds } from "../../features/cart-slice";
+import { useState } from "react";
+import { getCartProducts } from "../../features/cart-slice";
 import { useEffect } from "react";
 import styled from "styled-components";
 import OrderItem from "./OrderItem";
 import { StyledButton } from "../../styles";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const StyledFotter = styled.div`
   display: flex;
@@ -19,8 +19,8 @@ const StyledOrderItemsContainer = styled.div`
 `;
 
 const OrderItems = ({ setOrder, setStep }) => {
-  const dispatch = useDispatch();
-  const { products: cartProduct, savedLater } = useSelector(
+  const dispatch = useAppDispatch();
+  const { products: cartProduct, savedLater } = useAppSelector(
     (state) => state.cart
   );
   const [orderItems, setOrderItems] = useState([]);

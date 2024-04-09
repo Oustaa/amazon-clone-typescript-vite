@@ -1,4 +1,3 @@
-import React from "react";
 import {
   StyledNavBar,
   StyledHeader,
@@ -12,11 +11,11 @@ import { Link } from "react-router-dom";
 import { BsCart } from "react-icons/bs";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { AiOutlineClose } from "react-icons/ai";
-import { useSelector, useDispatch } from "react-redux";
 import styled from "styled-components";
 import { toggleMenu } from "../../../features/ui-slice";
 import Search from "../Search";
 import UserDropDown from "./UserDropDown";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
 
 const StyledSubCategories = styled.div`
   display: flex;
@@ -26,10 +25,10 @@ const StyledSubCategories = styled.div`
 `;
 
 const Header = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const categories = useSelector((state) => state.categories.value);
-  const openMenu = useSelector((state) => state.ui.openMenu);
+  const categories = useAppSelector((state) => state.categories.value);
+  const openMenu = useAppSelector((state) => state.ui.openMenu);
 
   return (
     <StyledNavBar>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, FC } from "react";
 import styled from "styled-components";
 import Images from "./Images";
 import Info from "./Info";
@@ -10,7 +10,11 @@ import Suggestions from "./Suggestions";
 import { useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import { getIds } from "../../features/cart-slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
+
+type DisplayProductProps = {
+  width?: string;
+};
 
 async function getPrice({ from, to, value }) {
   const options = {
@@ -38,7 +42,7 @@ async function getPrice({ from, to, value }) {
 async function getProduct(id, cb, userCurrency) {
   cb({ value: {}, loading: true });
   const resp = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/products/${id}`
+    `${import.meta.env.REACT_APP_BASE_URL}/products/${id}`
   );
 
   const data = await resp.data;
@@ -59,7 +63,7 @@ async function getProduct(id, cb, userCurrency) {
   cb({ value: data, loading: false });
 }
 
-const StyledDisplayProduct = styled.div`
+const StyledDisplayProduct = styled.div<{ width?: string }>`
   display: flex;
   gap: var(--spacing-xxl);
   position: relative;
@@ -69,9 +73,9 @@ const StyledDisplayProduct = styled.div`
   margin-block: var(--spacing-xxl);
 `;
 
-const DisplayProduct = ({ width }) => {
-  const userCurrency = useSelector((state) => state.auth.currency);
-  const dispatch = useDispatch();
+const DisplayProduct: FC<DisplayProductProps> = ({ width }) => {
+  const userCurrency = useAppSelector((state) => state.auth.currency);
+  const dispatch = useAppDispatch();
   const { id } = useParams();
 
   const [product, setProduct] = useState({
@@ -87,7 +91,7 @@ const DisplayProduct = ({ width }) => {
   useEffect(() => {
     getProduct(id, setProduct, userCurrency);
 
-    const visitsArray = JSON.parse(localStorage.getItem("visits")) || [];
+    const visitsArray = JSON.parse(localStorage.getItem("visits") || "[]");
     localStorage.setItem(
       "visits",
       JSON.stringify(new Array(...new Set([id, ...visitsArray])))

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { useEffect } from "react";
-import { convertPriceCurrency } from "../../utils/changePrice";
+import { ProductInterface } from "../../core/producTypes";
 
 const StyledCartContainer = styled.div`
   padding: var(--spacing-xl);
@@ -21,6 +21,7 @@ const StyledCartPrductsContainer = styled.div`
   gap: var(--spacing-xl);
   flex-direction: column;
 `;
+
 const StyledCartSubTotal = styled.div`
   display: flex;
   align-items: center;
@@ -37,7 +38,10 @@ const CartEmpty = styled.div`
   }
 `;
 
-const CartProducts = ({ products, ids }) => {
+const CartProducts: FC<{ products: ProductInterface[]; ids: string[] }> = ({
+  products,
+  ids,
+}) => {
   const [totle, setTotal] = useState(0);
 
   useEffect(() => {

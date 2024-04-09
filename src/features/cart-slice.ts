@@ -1,9 +1,31 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { ProductInterface } from "../core/producTypes";
+
+type initialStateInterface = {
+  loading: boolean;
+  products: ProductInterface[];
+  savedLater: ProductInterface[];
+  ids: {
+    [_id: string]: {
+      qte: number;
+      saveLater: boolean;
+      price: number;
+      store: string;
+    };
+  };
+};
+
+const initialState: initialStateInterface = {
+  loading: true,
+  products: [],
+  savedLater: [],
+  ids: {},
+};
 
 export const getCartProducts = createAsyncThunk("get/products", async () => {
-  const resp = await axios.post(`${process.env.REACT_APP_BASE_URL}/cart`, {
-    ids: Object.keys(JSON.parse(localStorage.getItem("cart_products"))),
+  const resp = await axios.post(`${import.meta.env.REACT_APP_BASE_URL}/cart`, {
+    ids: Object.keys(JSON.parse(localStorage.getItem("cart_products") || "{}")),
   });
 
   const data = await resp.data;
@@ -13,15 +35,10 @@ export const getCartProducts = createAsyncThunk("get/products", async () => {
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    loading: true,
-    products: [],
-    savedLater: [],
-    ids: {},
-  },
+  initialState,
   reducers: {
     getIds: (state) => {
-      state.ids = JSON.parse(localStorage.getItem("cart_products")) || {};
+      state.ids = JSON.parse(localStorage.getItem("cart_products") || "{}");
     },
     updateIds: (state, { payload }) => {
       state.ids = payload;

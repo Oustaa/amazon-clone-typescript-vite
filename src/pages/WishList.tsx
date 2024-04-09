@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
 import useFetch from "../hooks/useFetch";
 import Loader from "../components/Loader";
 import ProductsContainer from "../components/products/ProductsContainer";
 import { StyledContainer } from "../styles";
 import styled from "styled-components";
+import { ProductInterface } from "../core/producTypes";
 
 const StyledEmptyContainer = styled.div`
   display: flex;
@@ -16,22 +16,25 @@ const StyledEmptyContainer = styled.div`
 `;
 
 const request = {
-  url: `${process.env.REACT_APP_BASE_URL}/products/ids`,
-
+  url: `${import.meta.env.REACT_APP_BASE_URL}/products/ids`,
   config: {
     data: {
-      ids: JSON.parse(localStorage.getItem("wishlist")),
+      ids: JSON.parse(localStorage.getItem("wishlist") || "[]"),
     },
     method: "POST",
   },
 };
 
 const Orders = () => {
-  const { data: wishlist, loading, error } = useFetch(request);
+  const {
+    data: wishlist,
+    loading,
+    error,
+  } = useFetch<ProductInterface[]>(request);
 
   if (loading) return <Loader />;
 
-  if (error || !wishlist.length)
+  if (error || !wishlist?.length)
     return (
       <StyledEmptyContainer>
         <h2>Empty</h2>

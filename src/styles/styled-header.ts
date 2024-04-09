@@ -85,7 +85,7 @@ export const StyledActions = styled.div`
   }
 `;
 
-export const StyledNav = styled.nav`
+export const StyledNav = styled.nav<{ openMenu?: boolean }>`
   display: flex;
   align-items: ${({ openMenu }) => (openMenu ? "flex-start" : "center")};
   justify-content: space-between;
@@ -94,7 +94,7 @@ export const StyledNav = styled.nav`
   color: var(--white) !important;
 `;
 
-export const StyledLinks = styled.div`
+export const StyledLinks = styled.div<{ openMenu?: boolean }>`
   display: flex;
   aling-item: center;
  

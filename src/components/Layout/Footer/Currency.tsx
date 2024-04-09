@@ -1,7 +1,7 @@
-import React from "react";
 import styled from "styled-components";
-import { useSelector, useDispatch } from "react-redux";
 import { setCurrency } from "../../../features/auth-slice";
+import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import { ChangeEvent } from "react";
 
 const StyledCurrency = styled.div`
   padding-block: var(--spacing-lg);
@@ -39,10 +39,10 @@ const CURRENCIES = [
 ];
 
 const Currency = () => {
-  const dispatch = useDispatch();
-  const currency = useSelector((state) => state.auth.currency);
+  const dispatch = useAppDispatch();
+  const currency = useAppSelector((state) => state.auth.currency);
 
-  const currencyChangeHandler = (e) => {
+  const currencyChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     dispatch(setCurrency(e.target.value));
     localStorage.setItem("currency", e.target.value);
   };
@@ -52,7 +52,7 @@ const Currency = () => {
       <h4>Change Your Browsing Currency:</h4>
       <select
         onChange={currencyChangeHandler}
-        value={currency || localStorage.getItem("currency")}
+        value={currency || localStorage.getItem("currency") || "USD"}
       >
         {CURRENCIES.map((currency) => (
           <option value={currency}>{currency}</option>

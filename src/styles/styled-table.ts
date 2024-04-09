@@ -1,6 +1,10 @@
 import styled from "styled-components";
 
-export const StyledTableConainers = styled.div`
+interface StyledTableContainerProps {
+  width?: string;
+}
+
+export const StyledTableConainers = styled.div<StyledTableContainerProps>`
   width: ${({ width }) => (width ? `${width}` : "100%")};
 `;
 

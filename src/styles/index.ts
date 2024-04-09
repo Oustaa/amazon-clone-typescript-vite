@@ -1,13 +1,13 @@
 import styled from "styled-components";
 
-export const StyledContainer = styled.div`
+export const StyledContainer = styled.div<{ extraStyles?: string }>`
   width: calc(100% - var(--spacing-xxl));
   max-width: 1700px;
   margin-inline: auto;
   ${({ extraStyles }) => extraStyles};
 `;
 
-export const InputGroup = styled.div`
+export const InputGroup = styled.div<{ mg?: string }>`
   width: 100%;
   margin-bottom: ${({ mg }) => mg || "var(--spacing-lg)"};
 
@@ -45,7 +45,11 @@ export const InputGroup = styled.div`
   }
 `;
 
-export const FlexContainer = styled.div`
+export const FlexContainer = styled.div<{
+  y?: string;
+  gap?: string;
+  extraStyles?: string;
+}>`
   display: flex;
   align-items: ${({ y }) => (y ? y : "center")};
   padding-block: var(--spacing-sm);
@@ -53,7 +57,11 @@ export const FlexContainer = styled.div`
   ${({ extraStyles }) => extraStyles};
 `;
 
-export const StyledButton = styled.button`
+export const StyledButton = styled.button<{
+  padding?: string;
+  bgColor?: string;
+  extraStyles?: string;
+}>`
   padding: ${({ padding }) =>
     padding ? padding : "var(--spacing-sm) var(--spacing-xl)"};
   background-color: ${({ bgColor }) =>
@@ -75,7 +83,10 @@ export const StyledBigInput = styled.input`
   margin-block: var(--spacing-sm);
 `;
 
-export const StyledLoader = styled.div`
+export const StyledLoader = styled.div<{
+  loaderExtraStyles?: string;
+  height?: string;
+}>`
   width: 100%;
   height: ${({ height }) => (height ? height : "80vh")};
   display: flex;

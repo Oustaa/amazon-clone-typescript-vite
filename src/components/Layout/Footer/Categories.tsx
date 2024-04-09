@@ -1,8 +1,7 @@
-import React from "react";
 import { StyledNav, StyledLinks } from "../../../styles/styled-header";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import styled from "styled-components";
+import { useAppSelector } from "../../../store/hooks";
 
 const StyledFooterHr = styled.div`
   background-color: var(--dark-600);
@@ -19,7 +18,7 @@ const StyledSubCategories = styled.div`
 `;
 
 const Categories = () => {
-  const categories = useSelector((state) => state.categories.value);
+  const categories = useAppSelector((state) => state.categories.value);
 
   return (
     <>

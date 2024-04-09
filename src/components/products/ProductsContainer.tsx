@@ -1,4 +1,3 @@
-import React from "react";
 import ProductCard from "./ProductCard";
 import {
   StyledProducts,
@@ -6,7 +5,19 @@ import {
 } from "../../styles/styled-product";
 import Loader from "../Loader";
 
-const ProductsContainer = ({ title, data, numProd, titleLong }) => {
+type ProductsContainerProps<T> = {
+  title?: string;
+  numProd?: number;
+  titleLong?: number;
+  data: T;
+};
+
+const ProductsContainer = <T,>({
+  title,
+  data,
+  numProd,
+  titleLong,
+}: ProductsContainerProps<{ value: T[]; loading?: boolean }>) => {
   const products = data?.value;
 
   return (

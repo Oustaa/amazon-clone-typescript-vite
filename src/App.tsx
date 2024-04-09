@@ -1,4 +1,3 @@
-import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -17,12 +16,12 @@ import Orders from "./pages/Orders";
 import WishList from "./pages/WishList";
 
 import GlobalStyles from "./styles/globalStyles";
-import { useSelector } from "react-redux";
 import Loader from "./components/Loader";
 import CheckOut from "./pages/checkout";
+import { useAppSelector } from "./store/hooks";
 
 const App = () => {
-  const { loading } = useSelector((state) => state.auth);
+  const { loading } = useAppSelector((state) => state.auth);
 
   if (loading) {
     return <Loader />;

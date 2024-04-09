@@ -7,7 +7,7 @@ import { StyledContainer } from "../styles";
 
 async function getProductsBySubCategories(id, cb) {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASE_URL}/products/subcategory/${id}`
+    `${import.meta.env.REACT_APP_BASE_URL}/products/subcategory/${id}`
   );
 
   const data = await response.data;

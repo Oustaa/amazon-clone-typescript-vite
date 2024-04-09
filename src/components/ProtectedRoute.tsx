@@ -1,9 +1,9 @@
-import React from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../store/hooks";
+import { FC } from "react";
 
-const ProtectedRoute = ({ to }) => {
-  const { token, name } = useSelector((state) => state.auth.store);
+const ProtectedRoute: FC<{ to: string }> = ({ to }) => {
+  const { token, name } = useAppSelector((state) => state.auth.store);
   return token && name ? <Outlet /> : <Navigate to={to} />;
 };
 

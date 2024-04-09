@@ -1,11 +1,10 @@
-import React from "react";
-import { addToCart, deleteProduct, saveLater } from "../../features/cart-slice";
+import { addToCart, deleteProduct } from "../../features/cart-slice";
 import getSymbolFromCurrency from "currency-symbol-map";
 import styled from "styled-components";
-import { useDispatch } from "react-redux";
 import { useState } from "react";
 import axios from "axios";
 import Loader from "../../components/Loader";
+import { useAppDispatch } from "../../store/hooks";
 
 const StyledProduct = styled.div`
   max-width: 100%;
@@ -63,13 +62,13 @@ const SavedForLaterProduct = ({
   price,
   currency,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
 
   const deleteProducthandler = async () => {
     setLoading(true);
     try {
-      await axios.delete(`${process.env.REACT_APP_BASE_URL}/cart/${_id}`, {
+      await axios.delete(`${import.meta.env.REACT_APP_BASE_URL}/cart/${_id}`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
     } catch (error) {
@@ -84,7 +83,7 @@ const SavedForLaterProduct = ({
     setLoading(true);
     try {
       await axios.put(
-        `${process.env.REACT_APP_BASE_URL}/cart/savedForLater`,
+        `${import.meta.env.REACT_APP_BASE_URL}/cart/savedForLater`,
         {
           product: _id,
           savedLater: false,
@@ -106,7 +105,9 @@ const SavedForLaterProduct = ({
       <StyledProductImage>
         <img
           crossOrigin="anonymous"
-          src={`${process.env.REACT_APP_BASE_URL}/images/${store}/products/${images[0]}`}
+          src={`${
+            import.meta.env.REACT_APP_BASE_URL
+          }/images/${store}/products/${images[0]}`}
           alt=""
         />
       </StyledProductImage>

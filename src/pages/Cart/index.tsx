@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import CartProducts from "./CartProducts";
 import Loader from "../../components/Loader";
 import { StyledContainer, FlexContainer } from "../../styles";
-import { useSelector, useDispatch } from "react-redux";
 import { getCartProducts, getIds } from "../../features/cart-slice";
 import SavedForLaterProducts from "./SavedForLaterProducts";
 import CheckoutButton from "./CheckoutButton";
 import styled from "styled-components";
+import { useAppDispatch, useAppSelector } from "../../store/hooks";
 
 const StyledCart = styled.div`
   padding-block: var(--spacing-xxl);
 `;
 
 const Cart = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [productsIds, setProductsIds] = useState([]);
-  const { ids, products, savedLater, loading } = useSelector(
+  const { ids, products, savedLater, loading } = useAppSelector(
     (state) => state.cart
   );
 

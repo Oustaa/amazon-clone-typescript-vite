@@ -1,15 +1,45 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import {
+  createSlice,
+  createAsyncThunk,
+  SerializedError,
+} from "@reduxjs/toolkit";
 import axios from "axios";
 
+export interface CatecoryInterface {
+  _id: string;
+  name: string;
+  subCategories: SubCatecoryInterface[];
+  image: string;
+}
+
+export interface SubCatecoryInterface {
+  name: string;
+  specifications?: string[];
+}
+
+type initialStateInterface = {
+  value: CatecoryInterface[];
+  loading: boolean;
+  error: null | SerializedError;
+};
+
+const initialState: initialStateInterface = {
+  value: [],
+  loading: false,
+  error: null,
+};
+
 export const getCategories = createAsyncThunk("/get/categories", async () => {
-  const resp = await axios.get(`${process.env.REACT_APP_BASE_URL}/categories`);
+  const resp = await axios.get(
+    `${import.meta.env.REACT_APP_BASE_URL}/categories`
+  );
 
   return await resp.data;
 });
 
 const categoriesSlice = createSlice({
   name: "categories",
-  initialState: { value: [], loading: false, error: null },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder

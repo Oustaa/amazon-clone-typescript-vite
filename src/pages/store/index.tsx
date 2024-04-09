@@ -1,4 +1,3 @@
-import React from "react";
 import { StyledStore } from "../../styles/styled-store";
 
 import Loader from "../../components/Loader";
