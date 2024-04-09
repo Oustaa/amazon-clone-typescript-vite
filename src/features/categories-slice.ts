@@ -31,7 +31,7 @@ const initialState: initialStateInterface = {
 
 export const getCategories = createAsyncThunk("/get/categories", async () => {
   const resp = await axios.get(
-    `${import.meta.env.REACT_APP_BASE_URL}/categories`
+    `${import.meta.env.VITE_APP_BASE_URL}/categories`
   );
 
   return await resp.data;
@@ -47,6 +47,7 @@ const categoriesSlice = createSlice({
         state.loading = true;
       })
       .addCase(getCategories.fulfilled, (state, { payload }) => {
+        console.log(payload);
         state.loading = false;
         state.value = payload;
       })

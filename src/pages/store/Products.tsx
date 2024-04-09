@@ -10,7 +10,7 @@ type setProductsType = (arg0: { value: []; loading: boolean }) => void;
 
 async function getStoresProducts(id: string, cb: setProductsType) {
   const resp = await axios.get(
-    `${import.meta.env.REACT_APP_BASE_URL}/products/store/${id}`
+    `${import.meta.env.VITE_APP_BASE_URL}/products/store/${id}`
   );
 
   const products = await resp.data;
@@ -19,15 +19,15 @@ async function getStoresProducts(id: string, cb: setProductsType) {
 }
 
 const Products = () => {
-  const { id } = useParams<{ id: string }>();
+  const { storeId } = useParams<{ storeId: string }>();
   const [products, setProducts] = useState<{
     value: ProductInterface[];
     loading: boolean;
   }>({ value: [], loading: true });
 
   useEffect(() => {
-    getStoresProducts(id as string, setProducts);
-  }, [id]);
+    getStoresProducts(storeId as string, setProducts);
+  }, [storeId]);
 
   if (products.loading) return <Loader />;
 

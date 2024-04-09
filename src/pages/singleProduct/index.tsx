@@ -42,7 +42,7 @@ async function getPrice({ from, to, value }) {
 async function getProduct(id, cb, userCurrency) {
   cb({ value: {}, loading: true });
   const resp = await axios.get(
-    `${import.meta.env.REACT_APP_BASE_URL}/products/${id}`
+    `${import.meta.env.VITE_APP_BASE_URL}/products/${id}`
   );
 
   const data = await resp.data;

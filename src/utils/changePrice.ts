@@ -19,7 +19,7 @@ export const convertPriceCurrency = async (
       amount: value,
     },
     headers: {
-      "X-RapidAPI-Key": import.meta.env.REACT_APP_RAPID_API_X_KEY,
+      "X-RapidAPI-Key": import.meta.env.VITE_APP_RAPID_API_X_KEY,
       "X-RapidAPI-Host": "currency-converter-pro1.p.rapidapi.com",
     },
   };

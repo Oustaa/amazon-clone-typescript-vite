@@ -3,6 +3,7 @@ import styled from "styled-components";
 import CartProduct from "./CartProduct";
 import { useEffect } from "react";
 import { ProductInterface } from "../../core/producTypes";
+import { CartIds } from "../../features/cart-slice";
 
 const StyledCartContainer = styled.div`
   padding: var(--spacing-xl);
@@ -38,7 +39,7 @@ const CartEmpty = styled.div`
   }
 `;
 
-const CartProducts: FC<{ products: ProductInterface[]; ids: string[] }> = ({
+const CartProducts: FC<{ products: ProductInterface[]; ids: CartIds }> = ({
   products,
   ids,
 }) => {

@@ -1,19 +1,21 @@
-import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import { ProductInterface } from "../core/producTypes";
+
+export type CartIds = {
+  [_id: string]: {
+    qte: number;
+    saveLater: boolean;
+    price: number;
+    store: string;
+  };
+};
 
 type initialStateInterface = {
   loading: boolean;
   products: ProductInterface[];
   savedLater: ProductInterface[];
-  ids: {
-    [_id: string]: {
-      qte: number;
-      saveLater: boolean;
-      price: number;
-      store: string;
-    };
-  };
+  ids: CartIds;
 };
 
 const initialState: initialStateInterface = {
@@ -24,7 +26,7 @@ const initialState: initialStateInterface = {
 };
 
 export const getCartProducts = createAsyncThunk("get/products", async () => {
-  const resp = await axios.post(`${import.meta.env.REACT_APP_BASE_URL}/cart`, {
+  const resp = await axios.post(`${import.meta.env.VITE_APP_BASE_URL}/cart`, {
     ids: Object.keys(JSON.parse(localStorage.getItem("cart_products") || "{}")),
   });
 
@@ -71,14 +73,14 @@ const cartSlice = createSlice({
       state.ids[id].saveLater = true;
       localStorage.setItem("cart_products", JSON.stringify(state.ids));
       // add products with id 'id' to the savedLater list
-      const prodId = state.products.find(({ _id }) => _id === id);
+      const prodId = state.products.find(({ _id }) => _id === id)!;
       state.savedLater.push(prodId);
       // delete products with id 'id' from the products list
       state.products = state.products.filter(({ _id }) => _id !== id);
     },
     addToCart: (state, { payload: id }) => {
       state.ids[id].saveLater = false;
-      const prodId = state.savedLater.find(({ _id }) => _id === id);
+      const prodId = state.savedLater.find(({ _id }) => _id === id)!;
       // adding products with id 'id' to the products list
       state.products.push(prodId);
       // removing the product from the saved for later list
@@ -91,15 +93,24 @@ const cartSlice = createSlice({
       .addCase(getCartProducts.pending, (state) => {
         state.loading = true;
       })
-      .addCase(getCartProducts.fulfilled, (state, { payload: products }) => {
-        state.loading = false;
-        state.products = products.filter(
-          ({ _id }) => !state.ids[_id].saveLater
-        );
-        state.savedLater = products.filter(
-          ({ _id }) => state.ids[_id].saveLater
-        );
-      })
+      .addCase(
+        getCartProducts.fulfilled,
+        (
+          state,
+          action: PayloadAction<
+            (ProductInterface & { stock_Quantity: number })[]
+          >
+        ) => {
+          const { payload: products } = action;
+          state.loading = false;
+          state.products = products.filter(
+            (product) => !state.ids[product._id].saveLater
+          );
+          state.savedLater = products.filter(
+            (product) => state.ids[product._id].saveLater
+          );
+        }
+      )
       .addCase(getCartProducts.rejected, (state) => {
         state.loading = false;
       });

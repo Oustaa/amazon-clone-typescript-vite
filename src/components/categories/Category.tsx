@@ -16,7 +16,7 @@ const Category: FC<CategoryProps> = ({ name, _id, image }) => {
           <img
             crossOrigin="anonymous"
             src={`${
-              import.meta.env.REACT_APP_BASE_URL
+              import.meta.env.VITE_APP_BASE_URL
             }/images/categories/${image}`}
             alt={name}
           />

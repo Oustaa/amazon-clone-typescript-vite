@@ -1,19 +1,28 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, FC, Dispatch, SetStateAction } from "react";
 import ProductsContainer from "../../components/products/ProductsContainer";
 import axios from "axios";
+import { Product } from "./Actions";
+import { ProductInterface } from "../../core/producTypes";
 
-async function getSuggestions(cb, body) {
+async function getSuggestions(
+  cb: Dispatch<SetStateAction<ProductInterface[]>>,
+  body: {
+    categories_id: string[];
+    subcategories_id: string[];
+    prodId: string;
+  }
+) {
   const resp = await axios.post(
-    `${import.meta.env.REACT_APP_BASE_URL}/products/suggestions/categories`,
+    `${import.meta.env.VITE_APP_BASE_URL}/products/suggestions/categories`,
     body
   );
   const data = await resp.data;
-  console.log(data);
+
   cb(data);
 }
 
-function Suggestions({ product }) {
-  const [products, setProducts] = useState([]);
+const Suggestions: FC<{ product: Product }> = ({ product }) => {
+  const [products, setProducts] = useState<ProductInterface[]>([]);
 
   useEffect(() => {
     getSuggestions(setProducts, {
@@ -21,11 +30,11 @@ function Suggestions({ product }) {
       subcategories_id: product.subcategories_id,
       prodId: product._id,
     });
-  }, []);
+  }, [product._id, product.categories_id, product.subcategories_id]);
 
   return (
     <ProductsContainer title={"Suggested for you"} data={{ value: products }} />
   );
-}
+};
 
 export default Suggestions;

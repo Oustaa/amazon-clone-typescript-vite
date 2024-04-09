@@ -38,7 +38,7 @@ const OrderItem = ({ product, orderItems, setOrderItems }) => {
         <StyledCartProductImage>
           <img
             crossOrigin="anonymous"
-            src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+            src={`${import.meta.env.VITE_APP_BASE_URL}/images/${
               product.store
             }/products/${product.images[0]}`}
             alt={product.title}

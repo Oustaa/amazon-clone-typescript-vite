@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import { FC, useState } from "react";
 import styled from "styled-components";
+import { Product } from "./Actions";
 
 const StyledImagesContainer = styled.div`
   width: 35%;
@@ -65,7 +66,7 @@ const StyledImages = styled.div`
   }
 `;
 
-const Images = ({ product }) => {
+const Images: FC<{ product: Product }> = ({ product }) => {
   const [displayedImage, setDisplayedImage] = useState(0);
 
   return (
@@ -73,8 +74,8 @@ const Images = ({ product }) => {
       <>
         <StyledBigImage>
           <img
-            crossOrigin="anynomos"
-            src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+            crossOrigin="anonymous"
+            src={`${import.meta.env.VITE_APP_BASE_URL}/images/${
               product.store
             }/products/${product.images[displayedImage]}`}
             alt=""
@@ -88,8 +89,8 @@ const Images = ({ product }) => {
               onClick={() => setDisplayedImage(i)}
             >
               <img
-                crossOrigin="anynomos"
-                src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+                crossOrigin="anonymous"
+                src={`${import.meta.env.VITE_APP_BASE_URL}/images/${
                   product.store
                 }/products/${img}`}
                 alt=""

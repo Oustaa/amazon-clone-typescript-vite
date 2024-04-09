@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { StyledLinks, StyledNav } from "../../styles/styled-header";
 import { FlexContainer } from "../../styles";
 import {
@@ -9,11 +9,14 @@ import {
 } from "../../styles/styled-store";
 import { Link, Outlet, useParams } from "react-router-dom";
 import axios from "axios";
+import { StoreInterface } from "./types";
 
-async function getStore(id, cb) {
-  cb({ value: {}, loading: true });
+type StateType = { value: StoreInterface | null; loading: boolean };
+
+async function getStore(id: string, cb: (args0: StateType) => void) {
+  cb({ value: null, loading: true });
   const resp = await axios.get(
-    `${import.meta.env.REACT_APP_BASE_URL}/stores/${id}`
+    `${import.meta.env.VITE_APP_BASE_URL}/stores/${id}`
   );
   console.log(await resp.data);
   const data = await resp.data;
@@ -22,10 +25,11 @@ async function getStore(id, cb) {
 }
 
 const Layout = () => {
-  const { id } = useParams();
-  const [store, setStore] = useState({ value: {}, loading: true });
+  const { id } = useParams<{ id: string }>();
+  const [store, setStore] = useState<StateType>({ value: null, loading: true });
+
   useEffect(() => {
-    getStore(id, setStore);
+    getStore(id as string, setStore);
   }, [id]);
 
   return (
@@ -34,7 +38,7 @@ const Layout = () => {
         <StyledBgimage>
           <img
             src={`${
-              import.meta.env.REACT_APP_BASE_URL
+              import.meta.env.VITE_APP_BASE_URL
             }/images/bg-image-size.jpg`}
             crossOrigin="anonymous"
             alt=""
@@ -45,7 +49,7 @@ const Layout = () => {
             <StyledAvatar>
               <img src={""} alt="" />
             </StyledAvatar>
-            <h3>{store.value.name}</h3>
+            <h3>{store.value?.name}</h3>
           </FlexContainer>
           <StyledNav>
             <StyledLinks>
@@ -55,7 +59,8 @@ const Layout = () => {
           </StyledNav>
         </StyledHeader>
       </StyledStoreHeader>
-      <Outlet store={store} />
+      {/* <Outlet store={store} /> */}
+      <Outlet />
     </>
   );
 };

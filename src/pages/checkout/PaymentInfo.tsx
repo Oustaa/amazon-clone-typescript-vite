@@ -24,7 +24,7 @@ const PaymentInfo = ({ order }) => {
   const deleteProducthandler = async (_id) => {
     setLoading(true);
     try {
-      await axios.delete(`${import.meta.env.REACT_APP_BASE_URL}/cart/${_id}`, {
+      await axios.delete(`${import.meta.env.VITE_APP_BASE_URL}/cart/${_id}`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
     } catch (error) {
@@ -43,7 +43,7 @@ const PaymentInfo = ({ order }) => {
       setLoading(true);
       // send the order
       const orderResponse = await axios.post(
-        `${import.meta.env.REACT_APP_BASE_URL}/orders`,
+        `${import.meta.env.VITE_APP_BASE_URL}/orders`,
         order,
         {
           headers: {

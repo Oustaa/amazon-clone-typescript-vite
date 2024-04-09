@@ -21,7 +21,7 @@ const Cart = () => {
 
   useEffect(() => {
     dispatch(getIds());
-    setProductsIds(JSON.parse(localStorage.getItem("cart_products")));
+    setProductsIds(JSON.parse(localStorage.getItem("cart_products") || "{}"));
   }, [dispatch]);
 
   useEffect(() => {

@@ -1,10 +1,11 @@
 import { addToCart, deleteProduct } from "../../features/cart-slice";
 import getSymbolFromCurrency from "currency-symbol-map";
 import styled from "styled-components";
-import { useState } from "react";
+import { FC, useState } from "react";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import { useAppDispatch } from "../../store/hooks";
+import { Product } from "../singleProduct/Actions";
 
 const StyledProduct = styled.div`
   max-width: 100%;
@@ -54,7 +55,7 @@ const loaderExtraStyles = `
   background: #d9d9d952;
 `;
 
-const SavedForLaterProduct = ({
+const SavedForLaterProduct: FC<Product> = ({
   _id,
   store,
   images,
@@ -68,10 +69,11 @@ const SavedForLaterProduct = ({
   const deleteProducthandler = async () => {
     setLoading(true);
     try {
-      await axios.delete(`${import.meta.env.REACT_APP_BASE_URL}/cart/${_id}`, {
+      await axios.delete(`${import.meta.env.VITE_APP_BASE_URL}/cart/${_id}`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
       dispatch(deleteProduct(_id));
@@ -83,7 +85,7 @@ const SavedForLaterProduct = ({
     setLoading(true);
     try {
       await axios.put(
-        `${import.meta.env.REACT_APP_BASE_URL}/cart/savedForLater`,
+        `${import.meta.env.VITE_APP_BASE_URL}/cart/savedForLater`,
         {
           product: _id,
           savedLater: false,
@@ -93,6 +95,7 @@ const SavedForLaterProduct = ({
         }
       );
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
       dispatch(addToCart(_id));
@@ -105,9 +108,9 @@ const SavedForLaterProduct = ({
       <StyledProductImage>
         <img
           crossOrigin="anonymous"
-          src={`${
-            import.meta.env.REACT_APP_BASE_URL
-          }/images/${store}/products/${images[0]}`}
+          src={`${import.meta.env.VITE_APP_BASE_URL}/images/${store}/products/${
+            images[0]
+          }`}
           alt=""
         />
       </StyledProductImage>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 
@@ -11,7 +11,7 @@ type searchResult = { value: ProductInterface[]; loading: boolean };
 
 async function getProducts(query: string, cb: (arg0: searchResult) => void) {
   const response = await axios.get(
-    `${import.meta.env.REACT_APP_BASE_URL}/products/search?q=${query}`
+    `${import.meta.env.VITE_APP_BASE_URL}/products/search?q=${query}`
   );
 
   const data = await response.data;
@@ -36,6 +36,7 @@ const Search = () => {
   return (
     <StyledContainer>
       <ProductsContainer
+        // @ts-expect-error this is not an error replaceAll indead is
         title={`Search result for: ${query?.replaceAll("%20", " ")}`}
         data={products}
       />

@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import { FC } from "react";
+import { ProductsByCategory } from "../pages/ProductsByCategory";
 
 const StyledProsuctsByCategory = styled.div`
   border: 1px dashed var(--dark-700);
@@ -32,7 +34,9 @@ const StyledProsuctsByCategoryImage = styled.div`
   }
 `;
 
-const ProductsCategory = ({ data }) => {
+const ProductsCategory: FC<{
+  data: ProductsByCategory;
+}> = ({ data }) => {
   return (
     <StyledProsuctsByCategory>
       <StyledProsuctsByCategoryContainer>
@@ -44,7 +48,7 @@ const ProductsCategory = ({ data }) => {
             <Link to={`/product/${product._id}`}>
               <img
                 crossOrigin="anonymous"
-                src={`${import.meta.env.REACT_APP_BASE_URL}/images/${
+                src={`${import.meta.env.VITE_APP_BASE_URL}/images/${
                   product.store
                 }/products/${product.images[0]}`}
                 alt=""

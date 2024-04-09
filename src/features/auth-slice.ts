@@ -24,7 +24,7 @@ export const isLoggedIn = createAsyncThunk("/is/loggedin", async () => {
 
   if (!token) return { token: null, username: "" };
   const resp = await axios.get(
-    `${import.meta.env.REACT_APP_BASE_URL}/auth/stores/isloggedin`,
+    `${import.meta.env.VITE_APP_BASE_URL}/auth/stores/isloggedin`,
     {
       headers: { Authorization: token },
     }

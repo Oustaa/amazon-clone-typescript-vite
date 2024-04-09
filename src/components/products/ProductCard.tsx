@@ -20,7 +20,7 @@ function isElementVisible(element: HTMLAnchorElement) {
 }
 
 function viewedProduct(id: string) {
-  axios.put(`${import.meta.env.REACT_APP_BASE_URL}/products/viewed/${id}`);
+  axios.put(`${import.meta.env.VITE_APP_BASE_URL}/products/viewed/${id}`);
 }
 
 type ProductCardProps = {
@@ -88,7 +88,7 @@ const ProductCard: FC<ProductCardProps> = ({
           <img
             crossOrigin="anonymous"
             src={`${
-              import.meta.env.REACT_APP_BASE_URL
+              import.meta.env.VITE_APP_BASE_URL
             }/images/${store}/products/${images[0]}`}
             alt={title}
           />

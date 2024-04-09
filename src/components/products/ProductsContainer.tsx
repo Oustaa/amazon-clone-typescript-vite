@@ -4,20 +4,24 @@ import {
   StyledProductsContainer,
 } from "../../styles/styled-product";
 import Loader from "../Loader";
+import { ProductInterface } from "../../core/producTypes";
 
-type ProductsContainerProps<T> = {
+type ProductsContainerProps = {
   title?: string;
   numProd?: number;
   titleLong?: number;
-  data: T;
+  data: {
+    value: ProductInterface[];
+    loading?: boolean;
+  };
 };
 
-const ProductsContainer = <T,>({
+const ProductsContainer = ({
   title,
   data,
   numProd,
   titleLong,
-}: ProductsContainerProps<{ value: T[]; loading?: boolean }>) => {
+}: ProductsContainerProps) => {
   const products = data?.value;
 
   return (

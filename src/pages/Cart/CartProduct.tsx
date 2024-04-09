@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { Link } from "react-router-dom";
 import {
@@ -18,6 +18,7 @@ import {
 } from "../../styles/styled-cart";
 import { convertPriceCurrency } from "../../utils/changePrice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
+import { Product } from "../singleProduct/Actions";
 
 const loaderExtraStyles = `
   position: absolute;
@@ -29,7 +30,14 @@ const loaderExtraStyles = `
   background: #d9d9d952;
 `;
 
-const CartProduct = ({ images, store, title, price, currency, _id }) => {
+const CartProduct: FC<Product> = ({
+  images,
+  store,
+  title,
+  price,
+  currency,
+  _id,
+}) => {
   const { currency: userCurrency } = useAppSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
   const [updateQte, setUpdateQte] = useState(false);
@@ -51,11 +59,11 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
     (state) => state.cart.ids
   );
 
-  const toggleProductQte = async (num) => {
+  const toggleProductQte = async (num: number) => {
     setLoading(true);
     try {
       await axios.put(
-        `${import.meta.env.REACT_APP_BASE_URL}/cart`,
+        `${import.meta.env.VITE_APP_BASE_URL}/cart`,
         {
           product: _id,
           qte: num,
@@ -73,10 +81,11 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
   const deleteProducthandler = async () => {
     setLoading(true);
     try {
-      await axios.delete(`${import.meta.env.REACT_APP_BASE_URL}/cart/${_id}`, {
+      await axios.delete(`${import.meta.env.VITE_APP_BASE_URL}/cart/${_id}`, {
         headers: { Authorization: localStorage.getItem("token") },
       });
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
       dispatch(deleteProduct(_id));
@@ -88,7 +97,7 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
     setLoading(true);
     try {
       await axios.put(
-        `${import.meta.env.REACT_APP_BASE_URL}/cart/savedForLater`,
+        `${import.meta.env.VITE_APP_BASE_URL}/cart/savedForLater`,
         {
           product: _id,
           savedLater: !savedLater,
@@ -98,6 +107,7 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
         }
       );
     } catch (error) {
+      console.log(error);
     } finally {
       setLoading(false);
       dispatch(saveLater(_id));
@@ -112,7 +122,7 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
           <img
             crossOrigin="anonymous"
             src={`${
-              import.meta.env.REACT_APP_BASE_URL
+              import.meta.env.VITE_APP_BASE_URL
             }/images/${store}/products/${images[0]}`}
             alt={title}
             title={title}
@@ -134,7 +144,6 @@ const CartProduct = ({ images, store, title, price, currency, _id }) => {
                 <h4>Qte:</h4>
                 <button onClick={() => toggleProductQte(1)}>+</button>
                 <h4 onDoubleClick={() => setUpdateQte(true)}>{qte}</h4>
-
                 <button onClick={() => toggleProductQte(-1)}>-</button>
               </StyledCartProductQte>
             ) : (

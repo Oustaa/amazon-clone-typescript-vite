@@ -15,7 +15,7 @@ const StyledOrders = styled.div`
 `;
 
 const request = {
-  url: `${import.meta.env.REACT_APP_BASE_URL}/orders/user`,
+  url: `${import.meta.env.VITE_APP_BASE_URL}/orders/user`,
   config: {
     headers: { Authorization: localStorage.getItem("token") },
   },

@@ -2,6 +2,7 @@ import { StyledNav, StyledLinks } from "../../../styles/styled-header";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useAppSelector } from "../../../store/hooks";
+import Loader from "../../Loader";
 
 const StyledFooterHr = styled.div`
   background-color: var(--dark-600);
@@ -18,7 +19,15 @@ const StyledSubCategories = styled.div`
 `;
 
 const Categories = () => {
-  const categories = useAppSelector((state) => state.categories.value);
+  const {
+    loading,
+    error,
+    value: categories,
+  } = useAppSelector((state) => state.categories);
+
+  if (loading) return <Loader />;
+
+  if (error) return <h2>There is an unexpected error</h2>;
 
   return (
     <>

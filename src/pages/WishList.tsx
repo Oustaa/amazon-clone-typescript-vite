@@ -16,7 +16,7 @@ const StyledEmptyContainer = styled.div`
 `;
 
 const request = {
-  url: `${import.meta.env.REACT_APP_BASE_URL}/products/ids`,
+  url: `${import.meta.env.VITE_APP_BASE_URL}/products/ids`,
   config: {
     data: {
       ids: JSON.parse(localStorage.getItem("wishlist") || "[]"),

@@ -1,4 +1,4 @@
-export interface ProductInterface {
+export type ProductInterface = {
   _id: string;
   store_id: string;
   title: string;
@@ -8,4 +8,4 @@ export interface ProductInterface {
   categories_id: string[];
   subcategories_id: string[];
   store: string;
-}
+};

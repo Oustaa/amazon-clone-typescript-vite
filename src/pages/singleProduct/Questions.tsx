@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { FC, FormEvent, useState } from "react";
 import { InputGroup, StyledButton } from "../../styles";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { useAppSelector } from "../../store/hooks";
+import { Product } from "./Actions";
 
 const StyledQuestionsSection = styled.section`
   display: flex;
@@ -53,21 +54,19 @@ const StyledAskQuestion = styled.form`
   width: 40%;
 `;
 
-const Questions = ({ product }) => {
+const Questions: FC<{ product: Product }> = ({ product }) => {
   const username = useAppSelector((state) => state.auth.username);
   const [question, setQuestion] = useState("");
   const [loading, setLoading] = useState(false);
 
-  const askQuestion = async (e) => {
+  const askQuestion = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     if (question.length < 20) return;
     setLoading(true);
     try {
       const resp = await axios.post(
-        `${import.meta.env.REACT_APP_BASE_URL}/products/question/${
-          product._id
-        }`,
+        `${import.meta.env.VITE_APP_BASE_URL}/products/question/${product._id}`,
         { text: question },
         { headers: { Authorization: localStorage.getItem("token") } }
       );

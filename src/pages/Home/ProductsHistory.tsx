@@ -8,7 +8,7 @@ async function getLatestProduct(
   ids: string[]
 ) {
   const resp = await axios.post(
-    `${import.meta.env.REACT_APP_BASE_URL}/products/ids`,
+    `${import.meta.env.VITE_APP_BASE_URL}/products/ids`,
     {
       ids,
     }

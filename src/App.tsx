@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/products/sub/:id" element={<ProductsBySubCategory />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/wishlist" element={<WishList />} />
-          <Route path="/store/:id" element={<StoreLayout />}>
+          <Route path="/store/:storeId" element={<StoreLayout />}>
             <Route index element={<Store />} />
             <Route path="products" element={<Products />} />
           </Route>

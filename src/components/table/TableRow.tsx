@@ -17,7 +17,7 @@ const TableRow = ({ data, fields, displayedComponentOnclick }) => {
         <StyledTd key={i} className="image">
           <StyledImage
             crossOrigin="anonymous"
-            src={`${import.meta.env.REACT_APP_BASE_URL}/images//products/${
+            src={`${import.meta.env.VITE_APP_BASE_URL}/images//products/${
               data[field.value][0]
             }`}
           />

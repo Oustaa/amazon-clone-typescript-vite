@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 import { FlexContainer } from "../../styles";
 import { BsStarFill } from "react-icons/bs";
 import getSymbolFromCurrency from "currency-symbol-map";
 import { Link } from "react-router-dom";
+import { Product } from "./Actions";
 
 const StyledInfoContainer = styled.div`
   width: 45%;
@@ -58,7 +59,7 @@ const StyledSpecifications = styled.div`
   }
 `;
 
-const Info = ({ product }) => {
+const Info: FC<{ product: Product }> = ({ product }) => {
   return (
     <StyledInfoContainer>
       <h2>{product.title}</h2>
@@ -71,7 +72,7 @@ const Info = ({ product }) => {
           <BsStarFill />
           <BsStarFill />
           <BsStarFill />
-          <span>5 ({product.reviews.length})</span>
+          <span>5 ({product.reviews})</span>
         </div>
         {/* updated to number of questions */}
         <a href="#questions">{product.QandA.length} answered questions</a>
@@ -108,7 +109,12 @@ const Info = ({ product }) => {
       {product.description && (
         <>
           <hr />
-          <p>{JSON.parse(product.description.replaceAll("\n", "<br />"))}</p>
+          <p>
+            {
+              // @ts-expect-error replaceAll is indead a string method
+              JSON.parse(product.description.replaceAll("\n", "<br />"))
+            }
+          </p>
         </>
       )}
     </StyledInfoContainer>

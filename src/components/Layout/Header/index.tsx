@@ -16,6 +16,7 @@ import { toggleMenu } from "../../../features/ui-slice";
 import Search from "../Search";
 import UserDropDown from "./UserDropDown";
 import { useAppDispatch, useAppSelector } from "../../../store/hooks";
+import Loader from "../../Loader";
 
 const StyledSubCategories = styled.div`
   display: flex;
@@ -27,8 +28,16 @@ const StyledSubCategories = styled.div`
 const Header = () => {
   const dispatch = useAppDispatch();
 
-  const categories = useAppSelector((state) => state.categories.value);
+  const {
+    value: categories,
+    error,
+    loading,
+  } = useAppSelector((state) => state.categories);
   const openMenu = useAppSelector((state) => state.ui.openMenu);
+
+  if (loading) return <Loader />;
+
+  if (error) return <h2>There is an unexpected error</h2>;
 
   return (
     <StyledNavBar>
