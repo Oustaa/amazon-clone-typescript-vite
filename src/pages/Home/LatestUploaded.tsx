@@ -1,8 +1,14 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect, SetStateAction } from "react";
 import ProductsContainer from "../../components/products/ProductsContainer";
 import axios from "axios";
+import { ProductInterface } from "../../core/producTypes";
 
-async function getProducts(cb) {
+type StateType = {
+  value: ProductInterface[];
+  loading: boolean;
+};
+
+async function getProducts(cb: (arg0: SetStateAction<StateType>) => void) {
   const resp = await axios.get(
     `${import.meta.env.VITE_APP_BASE_URL}/products/latest`
   );
@@ -12,7 +18,10 @@ async function getProducts(cb) {
 }
 
 const LatestUploaded = () => {
-  const [latest, setLatest] = useState({ value: [], loading: false });
+  const [latest, setLatest] = useState<StateType>({
+    value: [],
+    loading: false,
+  });
 
   useEffect(() => {
     setLatest({ value: [], loading: true });

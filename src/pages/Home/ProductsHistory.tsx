@@ -1,7 +1,9 @@
 import axios from "axios";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import ProductsContainer from "../../components/products/ProductsContainer";
 import { ProductInterface } from "../../core/producTypes";
+
+type State = { value: ProductInterface[]; loading: boolean };
 
 async function getLatestProduct(
   cb: (args0: { value: ProductInterface[]; loading: boolean }) => void,
@@ -18,14 +20,11 @@ async function getLatestProduct(
     return data.find(({ _id }) => _id === id);
   });
 
-  cb({ value: sorteddata || [], loading: false });
+  cb({ value: sorteddata || [], loading: false } as State);
 }
 
 const LatestUploaded = () => {
-  const [latest, setLatest] = useState<{
-    value: ProductInterface[];
-    loading: boolean;
-  }>({ value: [], loading: false });
+  const [latest, setLatest] = useState<State>({ value: [], loading: false });
 
   useEffect(() => {
     setLatest({ value: [], loading: true });

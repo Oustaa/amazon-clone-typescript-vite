@@ -18,7 +18,7 @@ import {
 } from "../../styles/styled-cart";
 import { convertPriceCurrency } from "../../utils/changePrice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
-import { Product } from "../singleProduct/Actions";
+import { ProductInterface } from "../../core/producTypes";
 
 const loaderExtraStyles = `
   position: absolute;
@@ -30,7 +30,7 @@ const loaderExtraStyles = `
   background: #d9d9d952;
 `;
 
-const CartProduct: FC<Product> = ({
+const CartProduct: FC<ProductInterface> = ({
   images,
   store,
   title,
@@ -56,7 +56,7 @@ const CartProduct: FC<Product> = ({
   }, [userCurrency, currency, price]);
 
   const { qte, saveLater: savedLater } = useAppSelector(
-    (state) => state.cart.ids
+    (state) => state.cart.ids[_id]
   );
 
   const toggleProductQte = async (num: number) => {

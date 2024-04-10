@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { StyledContainer, InputGroup, StyledButton } from "../../styles";
 import styled from "styled-components";
@@ -47,14 +47,14 @@ const Index = () => {
     password: { value: "", valid: true },
   });
 
-  const changeHandler = (e) => {
+  const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setUserInfo((prev) => {
       return { ...prev, [name]: { value, valid: true } };
     });
   };
 
-  const submitHandler = async (e) => {
+  const submitHandler = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       setLogginIn(true);
@@ -72,11 +72,11 @@ const Index = () => {
         dispatch(login(data));
 
         const cartsProducts = Object.keys(
-          JSON.parse(localStorage.getItem("cart_products")) || []
+          JSON.parse(localStorage.getItem("cart_products") || "[]")
         ).map((id) => {
           return {
             product: id,
-            ...JSON.parse(localStorage.getItem("cart_products"))[id],
+            ...JSON.parse(localStorage.getItem("cart_products") || "{}")[id],
           };
         });
 
@@ -89,9 +89,26 @@ const Index = () => {
           }
         );
 
-        const cartsItems = await postCartsProductsReq.data?.cartItems;
+        const cartsItems = (await postCartsProductsReq.data?.cartItems) as {
+          price: number;
+          product: string;
+          qte: number;
+          saveLater: boolean;
+          store: string;
+          _id: string;
+        }[];
 
-        const ids = {};
+        console.log(cartsItems);
+
+        const ids: {
+          [key: string]: {
+            qte: number;
+            saveLater: boolean;
+            price: number;
+            store: string;
+          };
+        } = {};
+
         cartsItems.forEach(
           (item) =>
             (ids[item.product] = {
@@ -105,7 +122,7 @@ const Index = () => {
         // update it's visits
         const updateUsereVisits = await axios.post(
           `${import.meta.env.VITE_APP_BASE_URL}/users/visits`,
-          { visits: JSON.parse(localStorage.getItem("visits")) || [] },
+          { visits: JSON.parse(localStorage.getItem("visits") || "[]") },
           {
             headers: { Authorization: localStorage.getItem("token") },
           }
@@ -117,7 +134,7 @@ const Index = () => {
         // update it's visits
         const updateUsereSearch = await axios.post(
           `${import.meta.env.VITE_APP_BASE_URL}/users/search`,
-          { search: JSON.parse(localStorage.getItem("search")) || [] },
+          { search: JSON.parse(localStorage.getItem("search") || "[]") },
           {
             headers: { Authorization: localStorage.getItem("token") },
           }
@@ -129,7 +146,7 @@ const Index = () => {
         // updating the wishlist
         const wishlistResp = await axios.post(
           `${import.meta.env.VITE_APP_BASE_URL}/users/wishlist`,
-          { wishlist: JSON.parse(localStorage.getItem("wishlist")) || [] },
+          { wishlist: JSON.parse(localStorage.getItem("wishlist") || "[]") },
           { headers: { Authorization: localStorage.getItem("token") } }
         );
 
@@ -139,10 +156,12 @@ const Index = () => {
 
         dispatch(updateIds(ids));
         navigate(
-          searchParams.get("navigate") ? `/${searchParams.get("navigate")}` : -1
+          searchParams.get("navigate")
+            ? `/${searchParams.get("navigate")}`
+            : "/"
         );
       }
-    } catch (e) {
+    } catch (e: any) {
       console.log(e);
       if (!e.response?.data?.email)
         setUserInfo((prev) => {

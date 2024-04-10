@@ -5,7 +5,7 @@ import { FC, useState } from "react";
 import axios from "axios";
 import Loader from "../../components/Loader";
 import { useAppDispatch } from "../../store/hooks";
-import { Product } from "../singleProduct/Actions";
+import { ProductInterface } from "../../core/producTypes";
 
 const StyledProduct = styled.div`
   max-width: 100%;
@@ -55,7 +55,7 @@ const loaderExtraStyles = `
   background: #d9d9d952;
 `;
 
-const SavedForLaterProduct: FC<Product> = ({
+const SavedForLaterProduct: FC<ProductInterface> = ({
   _id,
   store,
   images,

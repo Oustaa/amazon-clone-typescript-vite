@@ -24,6 +24,8 @@ const ProductsContainer = ({
 }: ProductsContainerProps) => {
   const products = data?.value;
 
+  // return JSON.stringify(products);
+
   return (
     <StyledProducts>
       <header>
@@ -33,9 +35,15 @@ const ProductsContainer = ({
         <Loader height={"300px"} />
       ) : (
         <StyledProductsContainer numProd={numProd}>
-          {products?.map((product) => (
-            <ProductCard titleLong={titleLong} key={product._id} {...product} />
-          ))}
+          {products
+            ?.filter((prod) => !!prod)
+            .map((product) => (
+              <ProductCard
+                titleLong={titleLong}
+                key={product?._id}
+                {...product}
+              />
+            ))}
         </StyledProductsContainer>
       )}
     </StyledProducts>
